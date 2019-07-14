@@ -7,3 +7,4 @@
 target
 work
 *.tgz
+.DS_Store

@@ -1,6 +1,6 @@
 extends:
   import: classic
-  file: bwce/pipeline.yaml
+  file: maven-bwce/pipeline.yaml
 pipelines:
   pullRequest:
     build:
