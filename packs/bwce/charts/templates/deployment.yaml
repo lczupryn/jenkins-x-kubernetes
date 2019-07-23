@@ -20,7 +20,7 @@ spec:
 {{- end }}
     spec:
       imagePullSecrets:
-      - name: regcred
+      - name: {{ .Values.image.imagePullSecrets }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
