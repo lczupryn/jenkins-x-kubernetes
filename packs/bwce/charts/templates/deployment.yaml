@@ -30,6 +30,13 @@ spec:
         - name: {{ $pkey }}
           value: {{ quote $pval }}
 {{- end }}
+        - name: BW_LOGLEVEL
+          value: {{ .Values.bwce.loglevel }}
+{{- if .Values.bwce.monitoring.enabled -}}
+        - name: BW_APP_MONITORING_CONFIG
+          value: {{ .Values.bwce.monitoring.urlconfig }}
+        - name: BW_JAVA_OPTS
+          value: {{ .Values.bwce.monitoring.javaopts }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         livenessProbe:

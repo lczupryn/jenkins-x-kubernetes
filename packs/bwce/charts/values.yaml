@@ -41,3 +41,9 @@ readinessProbe:
   periodSeconds: 20
   successThreshold: 1
   timeoutSeconds: 1
+bwce:
+  loglevel: "DEBUG"
+  monitoring:
+    enabled: true
+    urlconfig: "{\"url\":\"http://bwcemon.jx-staging.13.79.22.29.nip.io:80\"}"
+    javaopts: "-Dbw.monitor.batchsize=1 -Dbw.monitor.publishtimer=1500"
