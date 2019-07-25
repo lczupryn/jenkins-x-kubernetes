@@ -37,6 +37,7 @@ spec:
           value: {{ .Values.bwce.monitoring.urlconfig }}
         - name: BW_JAVA_OPTS
           value: {{ .Values.bwce.monitoring.javaopts }}
+{{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         livenessProbe:
