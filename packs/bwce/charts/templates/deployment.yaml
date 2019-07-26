@@ -32,7 +32,7 @@ spec:
 {{- end }}
         - name: BW_LOGLEVEL
           value: {{ .Values.bwce.loglevel }}
-{{- if .Values.bwce.monitoring.enabled -}}
+{{- if .Values.bwce.monitoring.enabled }}
         - name: BW_APP_MONITORING_CONFIG
           value: {{ .Values.bwce.monitoring.urlconfig }}
         - name: BW_JAVA_OPTS

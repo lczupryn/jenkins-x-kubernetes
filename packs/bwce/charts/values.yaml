@@ -42,7 +42,7 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 bwce:
-  loglevel: "DEBUG"
+  loglevel: DEBUG
   monitoring:
     enabled: true
     urlconfig: "{\"url\":\"http://bwcemon.jx-staging.13.79.22.29.nip.io:80\"}"
