@@ -34,9 +34,9 @@ spec:
           value: {{ .Values.bwce.loglevel }}
 {{- if .Values.bwce.monitoring.enabled }}
         - name: BW_APP_MONITORING_CONFIG
-          value: {{ .Values.bwce.monitoring.urlconfig }}
+          value: {{ .Values.bwce.monitoring.urlconfig | toJson | quote }}
         - name: BW_JAVA_OPTS
-          value: {{ .Values.bwce.monitoring.javaopts }}
+          value: {{ .Values.bwce.monitoring.javaopts | quote }}
 {{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}

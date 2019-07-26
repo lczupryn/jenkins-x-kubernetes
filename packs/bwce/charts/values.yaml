@@ -45,5 +45,8 @@ bwce:
   loglevel: DEBUG
   monitoring:
     enabled: true
-    urlconfig: "{\"url\":\"http://bwcemon.jx-staging.13.79.22.29.nip.io:80\"}"
+    urlconfig:
+      {
+        "url" : "http://bwcemon.jx-staging.52.169.105.1.nip.io:80"
+      }
     javaopts: "-Dbw.monitor.batchsize=1 -Dbw.monitor.publishtimer=1500"
