@@ -25,6 +25,11 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- if .Values.bwce.configmap.enabled }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.bwce.configmap.name }}
+{{- else }}
         env:
 {{- range $pkey, $pval := .Values.env }}
         - name: {{ $pkey }}
@@ -37,6 +42,7 @@ spec:
           value: {{ .Values.bwce.monitoring.urlconfig | toJson | quote }}
         - name: BW_JAVA_OPTS
           value: {{ .Values.bwce.monitoring.javaopts | quote }}
+{{- end }}
 {{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}

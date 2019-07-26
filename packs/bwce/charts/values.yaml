@@ -42,11 +42,15 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 bwce:
+  configmap:
+    enabled: true
+    name: bwce-configmap
+# if configmap false
   loglevel: DEBUG
   monitoring:
     enabled: true
     urlconfig:
       {
-        "url" : "http://bwcemon.jx-staging.52.169.105.1.nip.io:80"
+        "url" : "http://bwcemon.<namespace>.<ip>.nip.io:80"
       }
     javaopts: "-Dbw.monitor.batchsize=1 -Dbw.monitor.publishtimer=1500"
