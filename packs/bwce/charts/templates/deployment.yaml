@@ -37,8 +37,6 @@ spec:
 {{- end }}
         - name: BW_LOGLEVEL
           value: {{ .Values.bwce.loglevel }}
-        - name: BW_JAVA_OPTS
-          value: {{ .Values.bwce.javaopts | quote }}
         - name: BW_PROFILE
           value: {{ .Values.bwce.bwprofile | quote }}
         - name: APP_CONFIG_PROFILE
@@ -46,6 +44,13 @@ spec:
 {{- if .Values.bwce.monitoring.enabled }}
         - name: BW_APP_MONITORING_CONFIG
           value: {{ .Values.bwce.monitoring.urlconfig | toJson | quote }}
+{{- end }}
+{{- if .Values.bwce.opentracing.enabled }}
+        - name: BW_JAVA_OPTS
+          value: "{{ .Values.bwce.javaopts | quote }} {{ .Values.bwce.opentracing.javaopts | quote }}"
+{{- else}}
+        - name: BW_JAVA_OPTS
+          value: {{ .Values.bwce.javaopts | quote }}
 {{- end }}
 {{- end }}
         ports:

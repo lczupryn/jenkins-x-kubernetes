@@ -57,3 +57,6 @@ bwce:
       {
         "url" : "http://bwcemon.<namespace>.<ip>.nip.io:80"
       }
+  opentracing:
+    enabled: true
+    javaopts: "-Dbw.engine.opentracing.enable=true"
