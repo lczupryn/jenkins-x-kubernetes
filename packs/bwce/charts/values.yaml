@@ -48,10 +48,12 @@ bwce:
     name: bwce-configmap
 # if configmap false
   loglevel: DEBUG
+  javaopts: "-Dbw.monitor.batchsize=1 -Dbw.monitor.publishtimer=1500"
+  bwprofile: "docker"
+  configprofile: "docker"
   monitoring:
     enabled: true
     urlconfig:
       {
         "url" : "http://bwcemon.<namespace>.<ip>.nip.io:80"
       }
-    javaopts: "-Dbw.monitor.batchsize=1 -Dbw.monitor.publishtimer=1500"
