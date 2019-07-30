@@ -47,7 +47,7 @@ spec:
 {{- end }}
 {{- if .Values.bwce.opentracing.enabled }}
         - name: BW_JAVA_OPTS
-          value: "{{ .Values.bwce.javaopts | quote }} {{ .Values.bwce.opentracing.javaopts | quote }}"
+          value: {{printf "%s %s"  .Values.bwce.javaopts .Values.bwce.opentracing.javaopts }}
 {{- else}}
         - name: BW_JAVA_OPTS
           value: {{ .Values.bwce.javaopts | quote }}
