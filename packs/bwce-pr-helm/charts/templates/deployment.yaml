@@ -1,0 +1,76 @@
+{{- if .Values.knativeDeploy }}
+{{- else }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}
+{{- if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.image.imagePullSecrets }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- if .Values.bwce.configmap.enabled }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.bwce.configmap.name }}
+{{- else }}
+        env:
+{{- range $pkey, $pval := .Values.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+{{- end }}
+        - name: BW_LOGLEVEL
+          value: {{ .Values.bwce.loglevel }}
+        - name: BW_PROFILE
+          value: {{ .Values.bwce.bwprofile | quote }}
+        - name: APP_CONFIG_PROFILE
+          value: {{ .Values.bwce.configprofile | quote }}
+{{- if .Values.bwce.monitoring.enabled }}
+        - name: BW_APP_MONITORING_CONFIG
+          value: {{ .Values.bwce.monitoring.urlconfig | toJson | quote }}
+{{- end }}
+{{- if .Values.bwce.opentracing.enabled }}
+        - name: BW_JAVA_OPTS
+          value: {{printf "%s %s"  .Values.bwce.javaopts .Values.bwce.opentracing.javaopts }}
+{{- else}}
+        - name: BW_JAVA_OPTS
+          value: {{ .Values.bwce.javaopts | quote }}
+{{- end }}
+{{- end }}
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.probePath.httpGet }}
+            port: {{ .Values.probePath.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.probePath.httpGet }}
+            port: {{ .Values.probePath.port }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+{{- end }}
