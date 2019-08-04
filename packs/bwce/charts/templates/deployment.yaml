@@ -7,6 +7,10 @@ metadata:
   labels:
     draft: {{ default "draft-app" .Values.draft }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.bwce.opentracing.enabled }}
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
+{{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   template:

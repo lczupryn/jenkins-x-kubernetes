@@ -4,6 +4,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "fullname" . }}
+{{- if .Values.bwce.opentracing.enabled }}
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
+{{- end }}
   labels:
     draft: {{ default "draft-app" .Values.draft }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -17,9 +21,6 @@ spec:
 {{- if .Values.podAnnotations }}
       annotations:
 {{ toYaml .Values.podAnnotations | indent 8 }}
-{{- end }}
-{{- if .Values.bwce.opentracing.enabled }}
-        "sidecar.jaegertracing.io/inject": "true"
 {{- end }}
     spec:
       imagePullSecrets:
