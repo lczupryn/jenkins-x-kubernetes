@@ -18,6 +18,9 @@ spec:
       annotations:
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
+{{- if .Values.bwce.opentracing.enabled }}
+        "sidecar.jaegertracing.io/inject": "true"
+{{- end }}
     spec:
       imagePullSecrets:
       - name: {{ .Values.image.imagePullSecrets }}
