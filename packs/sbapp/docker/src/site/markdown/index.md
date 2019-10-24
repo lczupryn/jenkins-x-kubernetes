@@ -1,3 +1,0 @@
-# docker
-
-My Application
