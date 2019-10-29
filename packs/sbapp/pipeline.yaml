@@ -7,6 +7,8 @@ pipelines:
       steps:
       - sh: skaffold version
         name: skaffold-version
+      - sh: mv \$(find docker/. -type d -name build)/ .
+        name: prepare docker build
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
         name: container-build
     postBuild:
@@ -27,6 +29,8 @@ pipelines:
       steps:
       - sh: skaffold version
         name: skaffold-version
+      - sh: mv \$(find docker/. -type d -name build)/ .
+        name: prepare docker build
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
         name: container-build
       - sh: jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)

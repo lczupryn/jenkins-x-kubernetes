@@ -3,7 +3,7 @@ kind: Config
 build:
   artifacts:
   - image: REPLACE_ME_DOCKER_REGISTRY_ORG/REPLACE_ME_APP_NAME
-    context: ./target/docker/build
+    context: ./build
     docker: {}
   tagPolicy:
     envTemplate:
