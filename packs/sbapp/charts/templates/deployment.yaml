@@ -63,7 +63,7 @@ spec:
             path: {{ .Values.probePath.httpGet }}
             port: {{ .Values.probePath.port }}
           httpHeaders:
-{{- range $pkey, $pval := .probePath.env }}
+{{- range $pkey, $pval := .probePath.httpHeaders }}
           - name: {{ $pkey }}
             value: {{ quote $pval }}
 {{- end }}
