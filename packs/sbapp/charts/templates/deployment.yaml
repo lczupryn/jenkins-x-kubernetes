@@ -24,6 +24,26 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
+        - name: K8S_NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: K8S_PODNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: K8S_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: K8S_SERVICE_ACCOUNT
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.serviceAccountName
 {{- range $pkey, $pval := .Values.env }}
         - name: {{ $pkey }}
           value: {{ quote $pval }}
@@ -40,8 +60,13 @@ spec:
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
           httpGet:
-            path: {{ .Values.probePath }}
-            port: {{ .Values.service.internalPort }}
+            path: {{ .Values.probePath.httpGet }}
+            port: {{ .Values.probePath.port }}
+          httpHeaders:
+{{- range $pkey, $pval := .probePath.env }}
+          - name: {{ $pkey }}
+            value: {{ quote $pval }}
+{{- end }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
