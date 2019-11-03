@@ -54,10 +54,10 @@ spec:
           httpGet:
             path: {{ .Values.probePath.httpGet }}
             port: {{ .Values.probePath.port }}
-          httpHeaders:
+            httpHeaders:
 {{- range $pkey, $pval := .Values.probePath.httpHeaders }}
-          - name: {{ $pkey }}
-            value: {{ quote $pval }}
+            - name: {{ $pkey }}
+              value: {{ quote $pval }}
 {{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -67,10 +67,10 @@ spec:
           httpGet:
             path: {{ .Values.probePath.httpGet }}
             port: {{ .Values.probePath.port }}
-          httpHeaders:
+            httpHeaders:
 {{- range $pkey, $pval := .Values.probePath.httpHeaders }}
-          - name: {{ $pkey }}
-            value: {{ quote $pval }}
+            - name: {{ $pkey }}
+              value: {{ quote $pval }}
 {{- end }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
