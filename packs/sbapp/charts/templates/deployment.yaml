@@ -52,8 +52,13 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         livenessProbe:
           httpGet:
-            path: {{ .Values.probePath }}
+            path: {{ .Values.probePath.httpGet }}
             port: {{ .Values.probePath.port }}
+          httpHeaders:
+{{- range $pkey, $pval := .Values.probePath.httpHeaders }}
+          - name: {{ $pkey }}
+            value: {{ quote $pval }}
+{{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           successThreshold: {{ .Values.livenessProbe.successThreshold }}
