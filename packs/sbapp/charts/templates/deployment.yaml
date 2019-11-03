@@ -53,7 +53,7 @@ spec:
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}
-            port: {{ .Values.service.internalPort }}
+            port: {{ .Values.probePath.port }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           successThreshold: {{ .Values.livenessProbe.successThreshold }}
